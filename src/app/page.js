@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./page.module.css";
+import "./page.css";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Selection from "@/components/Selection";
 import Timer from "@/components/Timer";
@@ -100,5 +100,14 @@ export default function Home() {
 		}
 	}, [pageState, countdown, mode, handleStartTimer, handleEndTimer, setMode]);
 
-	return <main className={styles.main}>{RenderedComponent}</main>;
+	return (
+		<main>
+			<div>{RenderedComponent}</div>
+			<div
+				className={`tomatoBackground ${
+					pageState === "select" ? "small" : "full"
+				} ${mode === "focus" ? "red" : "green"}`}
+			></div>
+		</main>
+	);
 }

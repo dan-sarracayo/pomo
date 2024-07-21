@@ -1,5 +1,7 @@
 import { padLeft } from "@/helpers/padLeft";
 
+import styles from "./Selection.module.css";
+
 const { useState, useEffect } = require("react");
 
 const Selection = ({
@@ -22,16 +24,16 @@ const Selection = ({
 	};
 
 	return (
-		<div>
-			<div className="tomato">
-				<div className="time-bar">
+		<div className={styles.timerView}>
+			<div className={styles.tomato}>
+				<div className={styles.timeBar}>
 					<button
 						disabled={period === range[0]}
 						onClick={() => handleSelect("minus")}
 					>
 						minus
 					</button>
-					<h4>{padLeft(period)}:00</h4>
+					<h2>{padLeft(period)}:00</h2>
 					<button
 						disabled={period === range[range.length - 1]}
 						onClick={() => handleSelect("plus")}
@@ -39,13 +41,13 @@ const Selection = ({
 						plus
 					</button>
 				</div>
-				<div className="play-button-wrapper">
+				<div className={styles.playBar}>
 					<button disabled={!mode || !period} onClick={() => onSelect(period)}>
 						start
 					</button>
 				</div>
 			</div>
-			<div className="modes">
+			<div className={styles.modesBar}>
 				<button disabled={mode === "focus"} onClick={() => setMode("focus")}>
 					focus
 				</button>
