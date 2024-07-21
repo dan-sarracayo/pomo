@@ -7,10 +7,11 @@ const { useState, useEffect } = require("react");
 const Selection = ({
 	onSelect = (time) => undefined,
 	onModeChange = (mode) => undefined,
+	mode: _mode,
 }) => {
 	const range = [2, 5, 10, 15, 25];
 	const [period, setPeriod] = useState(10);
-	const [mode, setMode] = useState("focus");
+	const [mode, setMode] = useState(_mode);
 
 	useEffect(() => {
 		onModeChange(mode);
@@ -24,7 +25,7 @@ const Selection = ({
 	};
 
 	return (
-		<div className={styles.timerView}>
+		<div className={styles.selectionView}>
 			<div className={styles.tomato}>
 				<div className={styles.timeBar}>
 					<button
@@ -33,7 +34,7 @@ const Selection = ({
 					>
 						minus
 					</button>
-					<h2>{padLeft(period)}:00</h2>
+					<h1>{padLeft(period)}:00</h1>
 					<button
 						disabled={period === range[range.length - 1]}
 						onClick={() => handleSelect("plus")}

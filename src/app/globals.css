@@ -77,10 +77,13 @@
 
 html,
 body {
+	font-size: 16px;
 	overflow-x: hidden;
 }
 
 body {
+	width: 100vw;
+	height: 100vh;
 	color: var(--text);
 	background: var(--crust);
 }
@@ -94,6 +97,10 @@ div.top-bar {
 	padding: 19px 0;
 	text-align: center;
 	color: var(--maroon);
+}
+
+div.top-bar h2 {
+	mix-blend-mode: #fff;
 }
 
 a:visited {

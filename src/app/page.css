@@ -1,18 +1,32 @@
 .tomatoBackground {
 	position: absolute;
+	z-index: -1;
 	top: 50%;
 	left: 50%;
-	width: var(--tomato-size);
-	height: var(--tomato-size);
 	border-radius: 50%;
 
+	transition: border-radius 1s ease-in-out, width 0.5s, height 0.5s;
 	transform: translate3d(-50%, -50%, 0) rotate(0);
+}
+
+.tomatoBackground.small {
+	width: var(--tomato-size);
+	height: var(--tomato-size);
 	animation: morph 15s linear infinite alternate, spin 20s linear infinite;
 	will-change: border-radius, transform;
 }
 
+.tomatoBackground.full {
+	border-radius: 0;
+	width: 100%;
+	height: 100%;
+}
+
 .tomatoBackground.red {
 	background-color: var(--maroon);
+}
+.tomatoBackground.green {
+	background-color: var(--overlay2);
 }
 
 @keyframes morph {

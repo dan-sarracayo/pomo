@@ -96,7 +96,13 @@ export default function Home() {
 					/>
 				);
 			default:
-				return <Selection onSelect={handleStartTimer} onModeChange={setMode} />;
+				return (
+					<Selection
+						onSelect={handleStartTimer}
+						onModeChange={setMode}
+						mode={mode}
+					/>
+				);
 		}
 	}, [pageState, countdown, mode, handleStartTimer, handleEndTimer, setMode]);
 

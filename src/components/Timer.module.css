@@ -1,4 +1,4 @@
-.selectionView {
+.timerView {
 	margin: 0 auto;
 	max-width: var(--max-width);
 
@@ -14,25 +14,11 @@
 	flex-direction: column;
 }
 
-.tomato {
-	display: flex;
-	flex-direction: column;
-}
-
-.timeBar {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
+.countdown {
 	margin-bottom: 30px;
 }
 
-.playBar {
-	display: flex;
-	justify-content: center;
-	margin-bottom: 30px;
-}
-
-.modesBar {
+.stopBar {
 	display: flex;
 	justify-content: center;
 }
