@@ -1,6 +1,7 @@
 import { padLeft } from "@/helpers/padLeft";
 
 import style from "./Timer.module.css";
+import MaterialIcon from "./MaterialIcon";
 
 const Timer = ({ countdown, mode, onCancel = () => undefined }) => {
 	return (
@@ -11,7 +12,7 @@ const Timer = ({ countdown, mode, onCancel = () => undefined }) => {
 				</h1>
 			</div>
 			<div className={style.stopBar}>
-				<button onClick={() => onCancel()}>stop</button>
+				<MaterialIcon onClick={() => onCancel()} icon="stop" />
 			</div>
 		</div>
 	);

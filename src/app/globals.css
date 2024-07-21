@@ -1,3 +1,5 @@
+@import url("./globalicons.css");
+
 :root {
 	/* Catppuccin latte theme. */
 	--rosewater: #dc8a78;
@@ -29,6 +31,7 @@
 
 	--max-width: 360px;
 	--tomato-size: 360px;
+	--tomato-green: #369f2d;
 }
 
 @media screen and (prefers-color-scheme: dark) {
@@ -100,7 +103,7 @@ div.top-bar {
 }
 
 div.top-bar h2 {
-	mix-blend-mode: #fff;
+	color: var(--text);
 }
 
 a:visited {
@@ -110,17 +113,22 @@ a:visited {
 button {
 	appearance: none;
 	border: none;
-	background-color: var(--surface0);
-	border-radius: 50px;
-	padding: 5px 15px;
 	cursor: pointer;
+	background-color: rgba(255, 255, 255, 0.2);
+	color: #fff;
+	border-radius: 50px;
 }
 
 button:hover,
 button:focus {
-	background-color: var(--surface1);
+	background-color: rgba(255, 255, 255, 0.4);
+}
+
+button.primary {
+	padding: 5px 15px;
 }
 
 button:disabled {
-	background-color: var(--surface2);
+	color: rgba(255, 255, 255, 0.5);
+	background-color: rgba(0, 0, 0, 0);
 }

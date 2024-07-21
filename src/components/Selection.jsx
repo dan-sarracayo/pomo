@@ -1,6 +1,7 @@
 import { padLeft } from "@/helpers/padLeft";
 
 import styles from "./Selection.module.css";
+import MaterialIcon from "./MaterialIcon";
 
 const { useState, useEffect } = require("react");
 
@@ -28,31 +29,39 @@ const Selection = ({
 		<div className={styles.selectionView}>
 			<div className={styles.tomato}>
 				<div className={styles.timeBar}>
-					<button
+					<MaterialIcon
 						disabled={period === range[0]}
 						onClick={() => handleSelect("minus")}
-					>
-						minus
-					</button>
+						icon="chevron_left"
+					/>
 					<h1>{padLeft(period)}:00</h1>
-					<button
+					<MaterialIcon
 						disabled={period === range[range.length - 1]}
 						onClick={() => handleSelect("plus")}
-					>
-						plus
-					</button>
+						icon="chevron_right"
+					/>
 				</div>
 				<div className={styles.playBar}>
-					<button disabled={!mode || !period} onClick={() => onSelect(period)}>
-						start
-					</button>
+					<MaterialIcon
+						disabled={!mode || !period}
+						onClick={() => onSelect(period)}
+						icon="play_arrow"
+					/>
 				</div>
 			</div>
 			<div className={styles.modesBar}>
-				<button disabled={mode === "focus"} onClick={() => setMode("focus")}>
+				<button
+					className="primary"
+					disabled={mode === "focus"}
+					onClick={() => setMode("focus")}
+				>
 					focus
 				</button>
-				<button disabled={mode === "break"} onClick={() => setMode("break")}>
+				<button
+					className="primary"
+					disabled={mode === "break"}
+					onClick={() => setMode("break")}
+				>
 					break
 				</button>
 			</div>

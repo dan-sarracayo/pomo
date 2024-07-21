@@ -6,7 +6,7 @@ import Selection from "@/components/Selection";
 import Timer from "@/components/Timer";
 
 export default function Home() {
-	// Page state is 'select', 'timer' or 'break'
+	// Page state is 'select' or 'timer'.
 	const [pageState, setPageState] = useState("select");
 
 	// Mode is either 'focus' or 'break'.
