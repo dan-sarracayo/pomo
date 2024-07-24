@@ -11,7 +11,7 @@ const MaterialIcon = ({
 			disabled={disabled}
 			className={styles.materialIconButton}
 		>
-			<span class="material-symbols-outlined">{icon}</span>
+			<span className="material-symbols-outlined">{icon}</span>
 		</button>
 	);
 };

@@ -4,16 +4,17 @@ import "./page.css";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import Selection from "@/components/Selection";
 import Timer from "@/components/Timer";
+import useLocalstorage from "@/hooks/useLocalstorage";
 
 export default function Home() {
-	// Page state is 'select' or 'timer'.
+	// Page state is 'loading', 'select' or 'timer'.
 	const [pageState, setPageState] = useState("select");
 
 	// Mode is either 'focus' or 'break'.
-	const [mode, setMode] = useState("focus");
+	const [mode, setMode] = useLocalstorage("mode", "focus");
 
 	// ToDo: replace this with a hook that uses localstorage.
-	const [endDate, setEndDate] = useState(undefined);
+	const [endDate, setEndDate] = useLocalstorage("endDate", undefined);
 
 	// Countdown to be rendered.
 	const [countdown, setCountdown] = useState([]);
@@ -30,8 +31,33 @@ export default function Home() {
 			_endDate.setMinutes(_endDate.getMinutes() + period);
 			setEndDate(_endDate);
 		},
-		[setEndDate]
+		[setEndDate, setPageState]
 	);
+
+	const handleNotifyPermission = () => {
+		if (!("Notification" in window)) return;
+
+		// Ask user for permission.
+		if (Notification.permission !== "denied") {
+			Notification.requestPermission();
+		}
+	};
+
+	const handleNotify = useCallback(() => {
+		if (!("Notification" in window)) return;
+
+		// Ask user for permission.
+		handleNotifyPermission();
+
+		// If not granted still, skip.
+		let granted = Notification.permission;
+		if (!granted) return;
+
+		const notification = new Notification("Pomo: Timer Up!");
+		notification.onclick = () => {
+			stopAudio();
+		};
+	}, []);
 
 	const handleEndTimer = useCallback(() => {
 		// Clear end date.
@@ -39,13 +65,25 @@ export default function Home() {
 
 		// Set view back to selection?
 		setPageState("select");
-	}, [setEndDate, setPageState]);
+
+		// Notify.
+		handleNotify();
+		playAudio("/simple-tone.wav");
+	}, [setEndDate, setPageState, handleNotify]);
+
+	useEffect(() => {
+		handleNotifyPermission();
+	}, []);
 
 	/**
 	 * Heartbeat manager, creates intervals for countdowns.
 	 */
 	useEffect(() => {
-		if (!endDate) return;
+		if (!endDate) {
+			setPageState("select");
+		} else if (endDate && ["loading", "select"].includes(pageState)) {
+			setPageState("timer");
+		}
 
 		/**
 		 * Calculates the time remaining in various human readable formats.
@@ -53,15 +91,9 @@ export default function Home() {
 		 */
 		const calcTime = () => {
 			// Remaining time drawn out to minutes and seconds.
-			const msRemaining = endDate - new Date();
+			const msRemaining = new Date(endDate) - new Date();
 			let minutes = Math.ceil(msRemaining / 1000 / 60) - 1;
-			let seconds = Math.ceil((msRemaining / 1000) % 60);
-
-			// Transfer the 60 seconds over to a minute.
-			if (seconds === 60) {
-				seconds = 0;
-				minutes += 1;
-			}
+			let seconds = Math.ceil((msRemaining / 1000) % 60) - 1;
 
 			// Return in order.
 			return [minutes, seconds, msRemaining];
@@ -80,7 +112,7 @@ export default function Home() {
 		}, 1000);
 
 		return () => clearInterval(heartbeat);
-	}, [endDate, handleEndTimer]);
+	}, [endDate, pageState, handleEndTimer, setPageState]);
 
 	/**
 	 * Decides which UI to render, based on page state.
@@ -114,6 +146,20 @@ export default function Home() {
 					pageState === "select" ? "small" : "full"
 				} ${mode === "focus" ? "red" : "green"}`}
 			></div>
+			<audio id="audioPlayer" loop={false}></audio>
 		</main>
 	);
+}
+
+function playAudio(songSrc) {
+	const audioPlayer = document.getElementById("audioPlayer");
+
+	audioPlayer.src = songSrc;
+	audioPlayer.play();
+}
+
+function stopAudio() {
+	const audioPlayer = document.getElementById("audioPlayer");
+	audioPlayer.pause();
+	audioPlayer.currentTime = 0;
 }

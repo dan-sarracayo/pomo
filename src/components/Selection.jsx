@@ -8,15 +8,10 @@ const { useState, useEffect } = require("react");
 const Selection = ({
 	onSelect = (time) => undefined,
 	onModeChange = (mode) => undefined,
-	mode: _mode,
+	mode,
 }) => {
 	const range = [2, 5, 10, 15, 25];
 	const [period, setPeriod] = useState(10);
-	const [mode, setMode] = useState(_mode);
-
-	useEffect(() => {
-		onModeChange(mode);
-	}, [mode, onModeChange]);
 
 	const handleSelect = (dir) => {
 		const indexOfCurrent = range.indexOf(period);
@@ -53,14 +48,14 @@ const Selection = ({
 				<button
 					className="primary"
 					disabled={mode === "focus"}
-					onClick={() => setMode("focus")}
+					onClick={() => onModeChange("focus")}
 				>
 					focus
 				</button>
 				<button
 					className="primary"
 					disabled={mode === "break"}
-					onClick={() => setMode("break")}
+					onClick={() => onModeChange("break")}
 				>
 					break
 				</button>
