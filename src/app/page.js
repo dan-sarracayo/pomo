@@ -65,11 +65,7 @@ export default function Home() {
 
 		// Set view back to selection?
 		setPageState("select");
-
-		// Notify.
-		handleNotify();
-		playAudio("/simple-tone.wav");
-	}, [setEndDate, setPageState, handleNotify]);
+	}, [setEndDate, setPageState]);
 
 	useEffect(() => {
 		handleNotifyPermission();
@@ -106,13 +102,16 @@ export default function Home() {
 			if (calc[2] < 0) {
 				clearInterval(heartbeat);
 				handleEndTimer();
+				// Notify.
+				handleNotify();
+				playAudio("/simple-tone.wav");
 				return;
 			}
 			setCountdown(calc);
 		}, 1000);
 
 		return () => clearInterval(heartbeat);
-	}, [endDate, pageState, handleEndTimer, setPageState]);
+	}, [endDate, pageState, handleEndTimer, handleNotify, setPageState]);
 
 	/**
 	 * Decides which UI to render, based on page state.
