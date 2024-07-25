@@ -120,11 +120,7 @@ export default function Home() {
 		switch (pageState) {
 			case "timer":
 				return (
-					<Timer
-						countdown={countdown}
-						mode={mode}
-						onCancel={() => handleEndTimer()}
-					/>
+					<Timer countdown={countdown} onCancel={() => handleEndTimer()} />
 				);
 			default:
 				return (

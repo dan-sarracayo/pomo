@@ -3,7 +3,7 @@ import { padLeft } from "@/helpers/padLeft";
 import style from "./Timer.module.css";
 import MaterialIcon from "./MaterialIcon";
 
-const Timer = ({ countdown, mode, onCancel = () => undefined }) => {
+const Timer = ({ countdown, onCancel = () => undefined }) => {
 	return (
 		<div className={style.timerView}>
 			<div className={style.countdown}>

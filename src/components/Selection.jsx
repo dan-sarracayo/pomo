@@ -3,7 +3,7 @@ import { padLeft } from "@/helpers/padLeft";
 import styles from "./Selection.module.css";
 import MaterialIcon from "./MaterialIcon";
 
-const { useState, useEffect } = require("react");
+const { useState } = require("react");
 
 const Selection = ({
 	onSelect = (time) => undefined,
