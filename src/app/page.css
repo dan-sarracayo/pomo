@@ -8,25 +8,28 @@ main {
 	z-index: -1;
 	top: 50%;
 	left: 50%;
-	border-radius: 50%;
 
+	/* Transitions for bg colour and size. */
 	-webkit-transition: background-color 0.6s, width 0.6s ease-in,
 		height 0.6s ease-in;
 	transition: background-color 0.6s, width 0.6s ease-in, height 0.6s ease-in;
+
+	/* Moves the center of the tomato into the center of the screen. */
 	transform: translate3d(-50%, -50%, 0) rotate(0);
+
+	/* Attach the morph and spin animations. */
+	animation: morph 15s linear infinite alternate, spin 20s linear infinite;
+	will-change: border-radius, transform;
 }
 
 .tomatoBackground.small {
 	width: var(--tomato-size);
 	height: var(--tomato-size);
-	border-radius: 50%;
-	animation: morph 15s linear infinite alternate, spin 20s linear infinite;
-	will-change: border-radius, transform;
 }
 
 .tomatoBackground.full {
-	width: 200%;
-	height: 200%;
+	width: 250%;
+	height: 250%;
 }
 
 .tomatoBackground.focus {
