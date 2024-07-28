@@ -7,33 +7,31 @@ import Timer from "@/components/Timer";
 import useLocalstorage from "@/hooks/useLocalstorage";
 
 export default function Home() {
-	// Page state is 'loading', 'select' or 'timer'.
 	const [pageState, setPageState] = useState("select");
 
-	// Mode is either 'focus' or 'break'.
 	const [mode, setMode] = useLocalstorage("mode", "focus");
 
-	// ToDo: replace this with a hook that uses localstorage.
 	const [endDate, setEndDate] = useLocalstorage("endDate", undefined);
 
-	// Countdown to be rendered.
 	const [countdown, setCountdown] = useState([]);
+
+	const [period, setPeriod] = useLocalstorage("period", 10);
 
 	/**
 	 * Handles starting a timer.
 	 *
 	 * @param {number} period - the number of minutes the timer will run for.
 	 */
-	const handleStartTimer = useCallback(
-		(period) => {
-			setPageState("timer");
-			let _endDate = new Date();
-			_endDate.setMinutes(_endDate.getMinutes() + period);
-			setEndDate(_endDate);
-		},
-		[setEndDate, setPageState]
-	);
+	const handleStartTimer = useCallback(() => {
+		setPageState("timer");
+		let _endDate = new Date();
+		_endDate.setMinutes(_endDate.getMinutes() + period);
+		setEndDate(_endDate);
+	}, [setEndDate, period, setPageState]);
 
+	/**
+	 * Handles requesting permission to notify.
+	 */
 	const handleNotifyPermission = () => {
 		if (!("Notification" in window)) return;
 
@@ -43,6 +41,9 @@ export default function Home() {
 		}
 	};
 
+	/**
+	 * Handles bubbling a notification to the client.
+	 */
 	const handleNotify = useCallback(() => {
 		if (!("Notification" in window)) return;
 
@@ -59,6 +60,9 @@ export default function Home() {
 		};
 	}, []);
 
+	/**
+	 * Handles just reseting the timer and page.
+	 */
 	const handleEndTimer = useCallback(() => {
 		// Clear end date.
 		setEndDate(undefined);
@@ -71,9 +75,6 @@ export default function Home() {
 		handleNotifyPermission();
 	}, []);
 
-	/**
-	 * Heartbeat manager, creates intervals for countdowns.
-	 */
 	useEffect(() => {
 		if (!endDate) {
 			setPageState("select");
@@ -95,6 +96,7 @@ export default function Home() {
 			return [minutes, seconds, msRemaining];
 		};
 
+		// Initial render before heartbeat takes over.
 		setCountdown(calcTime());
 
 		const heartbeat = setInterval(() => {
@@ -102,7 +104,6 @@ export default function Home() {
 			if (calc[2] < 0) {
 				clearInterval(heartbeat);
 				handleEndTimer();
-				// Notify.
 				handleNotify();
 				playAudio("/simple-tone.wav");
 				return;
@@ -125,13 +126,24 @@ export default function Home() {
 			default:
 				return (
 					<Selection
-						onSelect={handleStartTimer}
-						onModeChange={setMode}
+						onStartTimer={handleStartTimer}
+						onSelectPeriod={setPeriod}
+						period={period}
+						onSelectMode={setMode}
 						mode={mode}
 					/>
 				);
 		}
-	}, [pageState, countdown, mode, handleStartTimer, handleEndTimer, setMode]);
+	}, [
+		pageState,
+		countdown,
+		period,
+		setPeriod,
+		mode,
+		setMode,
+		handleStartTimer,
+		handleEndTimer,
+	]);
 
 	return (
 		<main>
@@ -139,13 +151,18 @@ export default function Home() {
 			<div
 				className={`tomatoBackground ${
 					pageState === "select" ? "small" : "full"
-				} ${mode === "focus" ? "red" : "green"}`}
+				} ${mode === "focus" ? "focus" : "break"}`}
 			></div>
 			<audio id="audioPlayer" loop={false}></audio>
 		</main>
 	);
 }
 
+/**
+ * Handles playing the beeper sound.
+ *
+ * Has to be here to interact easily with dom and be on window.
+ */
 function playAudio(songSrc) {
 	const audioPlayer = document.getElementById("audioPlayer");
 
@@ -153,6 +170,9 @@ function playAudio(songSrc) {
 	audioPlayer.play();
 }
 
+/**
+ * Handles stopping an resetting the beeper sound.
+ */
 function stopAudio() {
 	const audioPlayer = document.getElementById("audioPlayer");
 	audioPlayer.pause();

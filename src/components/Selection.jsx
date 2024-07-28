@@ -3,19 +3,18 @@ import { padLeft } from "@/helpers/padLeft";
 import styles from "./Selection.module.css";
 import MaterialIcon from "./MaterialIcon";
 
-const { useState } = require("react");
-
 const Selection = ({
-	onSelect = (time) => undefined,
-	onModeChange = (mode) => undefined,
+	period,
+	onSelectPeriod = (time) => undefined,
 	mode,
+	onSelectMode = (mode) => undefined,
+	onStartTimer = () => undefined,
 }) => {
 	const range = [2, 5, 10, 15, 25];
-	const [period, setPeriod] = useState(10);
 
 	const handleSelect = (dir) => {
 		const indexOfCurrent = range.indexOf(period);
-		setPeriod(
+		onSelectPeriod(
 			dir === "minus" ? range[indexOfCurrent - 1] : range[indexOfCurrent + 1]
 		);
 	};
@@ -39,7 +38,7 @@ const Selection = ({
 				<div className={styles.playBar}>
 					<MaterialIcon
 						disabled={!mode || !period}
-						onClick={() => onSelect(period)}
+						onClick={() => onStartTimer(period)}
 						icon="play_arrow"
 					/>
 				</div>
@@ -48,14 +47,14 @@ const Selection = ({
 				<button
 					className="primary"
 					disabled={mode === "focus"}
-					onClick={() => onModeChange("focus")}
+					onClick={() => onSelectMode("focus")}
 				>
 					focus
 				</button>
 				<button
 					className="primary"
 					disabled={mode === "break"}
-					onClick={() => onModeChange("break")}
+					onClick={() => onSelectMode("break")}
 				>
 					break
 				</button>

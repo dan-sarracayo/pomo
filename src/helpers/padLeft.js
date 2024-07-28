@@ -3,4 +3,4 @@
  * @param {*} n
  * @returns
  */
-export const padLeft = (n) => (n < 10 && n >= 0 ? `0${n}` : n);
+export const padLeft = (n) => (n < 10 && n >= 0 ? `0${n || 0}` : n);
