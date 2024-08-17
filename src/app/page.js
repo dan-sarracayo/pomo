@@ -72,10 +72,6 @@ export default function Home() {
 	}, [setEndDate, setPageState]);
 
 	useEffect(() => {
-		handleNotifyPermission();
-	}, []);
-
-	useEffect(() => {
 		if (!endDate) {
 			setPageState("select");
 		} else if (endDate && ["loading", "select"].includes(pageState)) {
