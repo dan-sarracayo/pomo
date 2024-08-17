@@ -1,4 +1,10 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Pomo
+
+## Description
+
+![pomo logo](https://pomo.sourmayo.com/pomo.svg)
+
+Pomo is a progressive pomodoro timer app, written in javascript with NextJS.
 
 ## Getting Started
 
