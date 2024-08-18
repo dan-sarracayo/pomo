@@ -6,6 +6,8 @@
 
 Pomo is a progressive pomodoro timer app, written in javascript with NextJS.
 
+Check it out at [pomo.sourmayo.com](https://pomo.sourmayo.com/)
+
 ## Getting Started
 
 First, run the development server:
